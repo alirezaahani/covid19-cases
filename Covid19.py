@@ -19,6 +19,15 @@ if countries_slug:
         if ( user_country <= len(countries_slug) ) and (user_country >= 0):
             country_slug = countries_slug[user_country]
             print('Countery selected => ' + country_slug)
+            data = []
+            all_status = requests.get('https://api.covid19api.com/country/' + country_slug).json()
+            for status in all_status:
+                data.append(status['Deaths'])    
+            update_date = status['Date']
+            plt.plot(data)
+            plt.title('Updated at :'+ update_date)
+            plt.show()
+        
         else:
             print('Please enter a vaild intager')
             exit()
@@ -27,14 +36,5 @@ if countries_slug:
         print('Please enter a vaild intager')
         exit()
     
-    if country_slug:
-        data = []
-        all_status = requests.get('https://api.covid19api.com/country/' + country_slug).json()
-        for status in all_status:
-            data.append(status['Deaths'])    
-        update_date = status['Date']
-        plt.plot(data)
-        plt.title('Updated at :'+ update_date)
-        plt.show()
 else:
     print('Country not found.')
